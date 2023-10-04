@@ -33,22 +33,25 @@ class ToDoList extends Component {
                                     <div className=''>{tsk.id}</div>
                                     <div className='float-start'>{tsk.title}</div>
                                     <p className='text-white'>{tsk.description}</p>
+                                <div className="input-group mb-3">
+                                    
+                                    <button className='ms-auto btn btn-outline-info btn-sm mx-2' onClick={() => this.handleEdit(tsk.id)}>Edit</button>
+                                </div>
                                     <button className='btn btn-outline-danger float-end btn-sm' onClick={()=>{this.handleDelete(tsk.id)}}>Delete</button>
                                 </div>
                 ))}
+
                 <div className="input-group mb-3">
                     <span className="input-group-text">Add new task</span>
                     <input type="text" className="form-control" placeholder="title" ref={this.inputRefTitle}></input>
                     <input type="text" className="form-control" placeholder="description" ref={this.inputRefDescription}></input>
                     <button className='ms-auto btn btn-outline-info btn-sm mx-2' onClick={this.handleAdd}>Add</button>
                 </div>
-                
 
-                <div className="input-group mb-3">
-                    <span className="input-group-text">Edit task</span>
-                    <input type="text" className="form-control" placeholder="title" ref={this.editRefTitle}></input>
-                    <input type="text" className="form-control" placeholder="description" ref={this.editRefDescription}></input>
-                    <button className='ms-auto btn btn-outline-info btn-sm mx-2' onClick={this.handleEdit}>Edit</button>
+                <div>
+                <span className="input-group-text">Edit task</span>
+                <input type="text" className="form-control" placeholder="title" ref={this.editRefTitle}></input>
+                <input type="text" className="form-control" placeholder="description" ref={this.editRefDescription}></input>
                 </div>
 
 
@@ -78,11 +81,16 @@ class ToDoList extends Component {
         this.setState({tasks:searchResults})
     }
 
-    handleEdit = () => {
-        console.log(this.editRefTitle)
-        console.log(this.editRefDescription)
-        
+    handleEdit = (id) => {
+        const newTasks = [...this.state.tasks];
+        const indexToEdit = newTasks.findIndex(task => task.id === id);
+        newTasks[indexToEdit].title = this.editRefTitle.current.value;
+        newTasks[indexToEdit].description = this.editRefDescription.current.value;
+        this.setState({ tasks: newTasks });
+        this.editRefTitle.current.value = ''
+        this.editRefDescription.current.value = ''
     }
+    
     
 }
  
